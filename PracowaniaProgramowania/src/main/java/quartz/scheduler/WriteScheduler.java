@@ -27,6 +27,10 @@ public class WriteScheduler {
             Date date = new Date();
             if(!(date.getSeconds() == 0))
                 date.setMinutes(date.getMinutes() + 1);
+            if(!(date.getSeconds() % 60 == 0)) {
+                date.setMinutes(date.getMinutes() + 1);
+            }
+            date.setSeconds(30);
 
             // Trigger the job to run now, and then repeat every 1 seconds
             Trigger trigger = newTrigger()
