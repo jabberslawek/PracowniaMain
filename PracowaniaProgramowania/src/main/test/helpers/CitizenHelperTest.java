@@ -7,13 +7,15 @@ class CitizenHelperTest {
 
     @Test
     void cutPeselCorrect()  {
-        String pesel = CitizenHelper.cutPesel("M L 97010402339");
+        String incorrectData = "M L 44051401358";
+        String pesel = CitizenHelper.cutPesel(incorrectData);
         Assert.assertEquals(pesel, "97010402339");
     }
 
     @Test
     void cutPeselFailed() {
-        String pesel = CitizenHelper.cutPesel("M L 97010402338");
+        String correctData = "M L 44051401359";
+        String pesel = CitizenHelper.cutPesel(correctData);
         Assert.assertNull(pesel);
     }
 
