@@ -1,13 +1,9 @@
 package models;
 
-import java.sql.Time;
-import java.util.Date;
-
 public class WmiSchedule {
 
     private String startActivity;
     private String endActivity;
-
     private boolean isBreak;
 
     public WmiSchedule(String startActivity, String endActivity, boolean isBreak) {

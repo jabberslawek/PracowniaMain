@@ -12,20 +12,18 @@ public class WriterJob implements Job {
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
         {
-            //Job name
-            JobKey key = context.getJobDetail().getKey();
-
             //Job values Map
             JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 
             //read values
             ArrayList<Citizen> citizens = (ArrayList) dataMap.get("citizensList");
-
+            String city = "";
             try {
                 String newLineSeparator = ":\n";
                 FileOutputStream fos = new FileOutputStream(new File(".\\odp.txt"), false);
                 citizens.sort(Comparator.comparing(Citizen::getCity));
-                String city = citizens.get(0).getCity();
+                if(citizens.size() != 0)
+                    city = citizens.get(0).getCity();
                 fos.write((city + newLineSeparator).getBytes());
                 for (Citizen citizen : citizens) {
                     String temp = "\t " + citizen.getFullData() + "\n";
@@ -38,7 +36,7 @@ public class WriterJob implements Job {
                 fos.flush();
                 fos.close();
             } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+                System.out.println("ERR " + ex.getMessage());
             }
 
         }

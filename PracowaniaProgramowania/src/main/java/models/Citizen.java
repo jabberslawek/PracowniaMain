@@ -9,11 +9,8 @@ public class Citizen {
     private String fullData;
 
     public Citizen(String city, String fullData) throws Exception {
-        String pesel = CitizenHelper.cutPesel(fullData);
-        if(pesel.length() != 11)
-            return;
         this.city = city;
-        this.pesel = pesel;
+        this.pesel = CitizenHelper.cutPesel(fullData);;
         this.fullData = fullData;
     }
 

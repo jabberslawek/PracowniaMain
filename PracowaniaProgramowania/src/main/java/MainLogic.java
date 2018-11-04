@@ -1,26 +1,15 @@
-import helpers.CitizenHelper;
+import helpers.WmiScheduleHelper;
 import models.Citizen;
-import org.eclipse.collections.impl.multimap.list.FastListMultimap;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.impl.StdSchedulerFactory;
-import quartz.job.WriterJob;
+import quartz.scheduler.RemainingTimeScheduler;
 import quartz.scheduler.WriteScheduler;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 class MainLogic {
 
     private final Scanner in = new Scanner(System.in);
     private List<Citizen> citizens = new ArrayList();
+    private WmiScheduleHelper wmiHelper = new WmiScheduleHelper();
 
     private int checkCitizen(String citizenData, List<Citizen> citizens) throws Exception {
         String pesel = citizenData.substring(citizenData.lastIndexOf(" ") + 1, 11);
@@ -34,7 +23,9 @@ class MainLogic {
 
     void citizenAdd() throws Exception {
         String citizenCity, citizenData;
+        int index = -1, time = wmiHelper.checkActivity(new Date());
         WriteScheduler.writeSchedulerRun(citizens);
+        RemainingTimeScheduler.remainingTime(time, wmiHelper.isType());
         //noinspection InfiniteLoopStatement
         for(;;) {
             System.out.print("Podaj miasto : ");
@@ -42,7 +33,8 @@ class MainLogic {
             in.nextLine();
             System.out.print("Podaj imie, nazwisko, pesel : ");
             citizenData = in.nextLine();
-            int index = checkCitizen(citizenData, citizens);
+            if(citizens.size() != 0)
+                index = checkCitizen(citizenData, citizens);
             if(index != -1) {
                 citizens.get(index).setFullData(citizenData);
                 citizens.get(index).setCity(citizenCity);
