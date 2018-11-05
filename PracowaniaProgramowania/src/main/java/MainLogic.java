@@ -11,8 +11,8 @@ class MainLogic {
     private List<Citizen> citizens = new ArrayList();
     private WmiScheduleHelper wmiHelper = new WmiScheduleHelper();
 
-    private int checkCitizen(String citizenData, List<Citizen> citizens) throws Exception {
-        String pesel = citizenData.substring(citizenData.lastIndexOf(" ") + 1, 11);
+    private int checkCitizen(String citizenData, List<Citizen> citizens) {
+        String pesel = citizenData.substring(citizenData.lastIndexOf(" ") + 1);
         for(Citizen citizen : citizens){
             if(citizen.getPesel().equals(pesel)) {
                 return citizens.indexOf(citizen);

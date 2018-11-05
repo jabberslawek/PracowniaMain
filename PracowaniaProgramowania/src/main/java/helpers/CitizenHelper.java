@@ -13,7 +13,7 @@ public class CitizenHelper {
                     System.out.println("Pesel za krotki");
                     break;
                 }
-                pesel = allData.substring(i, i + 11);
+                pesel = allData.substring(i);
                 boolean isValidRegex = validateRegex(allData);
                 boolean isValidPesel = validatePesel(pesel);
                 if (isValidRegex && isValidPesel && pesel.length() == 11)

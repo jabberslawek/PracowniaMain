@@ -2,9 +2,6 @@ package helpers;
 
 import models.WmiSchedule;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,26 +22,26 @@ public class WmiScheduleHelper {
         add(new WmiSchedule("17:15:01", "18:45:00", false));
     }};
 
-    public int checkActivity(Date date) {
+    public int checkActivity(Date dateNow) {
         Date start = new Date(), end = new Date();
         for (WmiSchedule activity : wmiPlan) {
             start = setUpDate(start, activity.getStartActivity());
             end = setUpDate(end, activity.getEndActivity());
-            if (date.getDay() >= 1 && date.getDay() <= 5) {
-                if (date.after(start) && date.before(end)) {
+            if (dateNow.getDay() >= 1 && dateNow.getDay() <= 5) {
+                if (dateNow.after(start) && dateNow.before(end)) {
                     this.type = activity.isBreak();
-                    return (end.getHours() * 60 + end.getMinutes()) - (date.getHours() * 60 + date.getMinutes()) - 1;
+                    return (end.getHours() * 60 + end.getMinutes()) - (dateNow.getHours() * 60 + dateNow.getMinutes()) - 1;
                 }
             }
         }
 
         this.type = false;
-        if (date.getDay() == 5)
-            return calculateMinutes(date, 3375);
-        if (date.getDay() == 6)
-            return calculateMinutes(date, 1935);
+        if (dateNow.getDay() == 5)
+            return calculateMinutes(dateNow, 3375);
+        if (dateNow.getDay() == 6)
+            return calculateMinutes(dateNow, 1935);
         else
-            return calculateMinutes(date, 495);
+            return calculateMinutes(dateNow, 495);
     }
 
     private int getHours(String date) {
@@ -66,7 +63,7 @@ public class WmiScheduleHelper {
         return date;
     }
 
-    private int calculateMinutes(Date date, int value) {
+    public int calculateMinutes(Date date, int value) {
         return (1440 - (date.getHours() * 60 + date.getMinutes())) + value - 1;
     }
 
